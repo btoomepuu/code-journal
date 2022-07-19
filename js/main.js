@@ -17,7 +17,7 @@ function submitEntry(event) {
   };
   newEntry.entryId = data.nextEntryId;
   data.nextEntryId++;
-  data.entries.push(newEntry);
+  data.entries.unshift(newEntry);
   $entryImg.src = '/images/placeholder-image-square.jpg';
   document.getElementById('entry-form').reset();
 }
