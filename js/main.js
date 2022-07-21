@@ -4,8 +4,8 @@ function navigate(event) {
   if ($pageView !== null) {
     $views.forEach(view => {
       if (view.getAttribute('data-view') === $pageView) {
-        view.className = 'view';
-      } else { view.className = 'view hidden'; }
+        switchView($pageView);
+      }
     }
     );
   }
@@ -37,7 +37,7 @@ function submitEntry(event) {
   data.entries.unshift(newEntry);
   $entryImg.src = '/images/placeholder-image-square.jpg';
   renderEntry(newEntry);
-  hideDiv();
+  switchView('entries');
   document.getElementById('entry-form').reset();
 }
 var $entryForm = document.getElementById('entry-form');
@@ -63,15 +63,26 @@ function renderEntry(object) {
   note.textContent = `${object.note}`;
   textDiv.appendChild(note);
   listItem.appendChild(textDiv);
+  list.prepend(listItem);
   return listItem;
 }
 
-function hideDiv() {
-  $entryFormHead.className = ('view hidden');
-  $entries.className = ('view');
+function switchView(view) {
+  data.view = view;
+  if (data.view === 'entries') {
+    $entries.className = 'view';
+    $entryFormHead.className = 'view hidden';
+  } else if (data.view === 'entry-form') {
+    $entries.className = 'view hidden';
+    $entryFormHead.className = 'view';
+  }
 }
 
 var list = document.querySelector('.list');
 window.addEventListener('DOMContentLoaded', event => {
   data.entries.forEach(entry => list.append(renderEntry(entry)));
+});
+
+window.addEventListener('DOMContentLoaded', event => {
+  switchView(data.view);
 });
