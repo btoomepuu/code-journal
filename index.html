@@ -16,19 +16,22 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <header>
-    <div class="container">
-      <div class="row">
-        <h3 class="column-full">Code Journal</h3>
+  <header class="header">
+    <div class="nav-bar container">
+      <div class="column-full">
+        <ul>
+          <li><h3>Code Journal</h3></li>
+          <li><h4 class="view-entries" data-view="entries">Entries</h4></li>
+        </ul>
       </div>
     </div>
   </header>
   <div class="container">
-    <div data-view="entry-form">
+    <div class="view" data-view="entry-form" id="entry-form-head">
       <form id="entry-form">
         <div class="row">
           <div class="column-full">
-            <h1 class="new-entry-title">New Entry</h1>
+            <h1>New Entry</h1>
           </div>
           <img class="column-half entry-img" src="/images/placeholder-image-square.jpg" alt="Image Place Holder">
           <div class="column-full column-half">
@@ -42,7 +45,7 @@
             <input required
             type="text"
             name="imgUrl"
-            id="imgUrl">`
+            id="imgUrl">
           </div>
           <div class="column-full">
             <label for="note">Notes</label>
@@ -60,8 +63,24 @@
         </div>
       </form>
     </div>
+    <div class="view hidden" data-view="entries" id="entries">
+      <div class="row">
+        <div class="column-full entry-head">
+          <h1 class="entry-title">Entries</h1>
+          <div class="new-entry">
+            <button class="new-entry-btn" data-view="entry-form">NEW</button>
+          </div>
+        </div>
+      </div>
+      <!-- <p class="no-entry">No enteries have been recorded.</p> -->
+      <div class="row">
+        <div class="column-full">
+          <ul class="list">
+          </ul>
+        </div>
+      </div>
+    </div>
   </div>
-
   <main>
   </main>
   <script src="js/data.js"></script>
