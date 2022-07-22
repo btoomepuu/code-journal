@@ -50,26 +50,25 @@ var $editEntry = document.getElementById('entry-edit');
 function renderEntry(object) {
   var listItem = document.createElement('li');
   listItem.setAttribute('class', 'entry-items');
+  listItem.setAttribute('id', `${object.entryId}`);
   list.appendChild(listItem);
   var image = document.createElement('img');
   image.setAttribute('src', `${object.imgUrl}`);
   image.setAttribute('class', 'column-half');
   listItem.appendChild(image);
   var textDiv = document.createElement('div');
-  textDiv.setAttribute('class', 'column-half');
-  var titleSpan = document.createElement('span');
-  titleSpan.setAttribute('class', 'column-full title-span');
-  textDiv.appendChild(titleSpan);
+  textDiv.setAttribute('class', 'column-half text-div');
   var title = document.createElement('p');
-  title.setAttribute('class', 'column-half');
   title.textContent = `${object.title}`;
-  titleSpan.appendChild(title);
+  title.setAttribute('class', 'title');
+  textDiv.appendChild(title);
   var edit = document.createElement('i');
   edit.setAttribute('class', 'fas fa-pen');
   edit.setAttribute('data-view', 'entry-edit');
-  titleSpan.appendChild(edit);
+  textDiv.appendChild(edit);
   var note = document.createElement('p');
   note.textContent = `${object.note}`;
+  // note.setAttribute('class', 'column-full');
   textDiv.appendChild(note);
   listItem.appendChild(textDiv);
   list.prepend(listItem);
@@ -91,8 +90,8 @@ function switchView(view) {
       break;
     case 'entry-edit':
       $editEntry.className = 'view';
+      $entryFormHead.className = 'view';
       $entries.className = 'view hidden';
-      $entryFormHead.className = 'view hidden';
       break;
   }
 }
@@ -107,7 +106,22 @@ window.addEventListener('DOMContentLoaded', event => {
 });
 
 function editEntry(event) {
-
+  var entryId;
+  var updateLocation;
+  var updateEntry;
+  if (event.target.className === 'fas fa-pen') {
+    entryId = event.target.closest('li').id;
+    updateLocation = data.nextEntryId - entryId - 1;
+    updateEntry = data.entries[updateLocation];
+  }
+  $entryImg.src = updateEntry.imgUrl;
+  $entryImgUrl.value = updateEntry.imgUrl;
+  $entryTitle.value = updateEntry.title;
+  $entryNote.value = updateEntry.note;
 }
 
 list.addEventListener('click', editEntry);
+
+var $entryTitle = document.getElementById('title');
+var $entryNote = document.getElementById('note');
+var $entryImgUrl = document.getElementById('imgUrl');

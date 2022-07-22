@@ -90,7 +90,7 @@ i {
   align-items: center;
 }
 
-.entry-title {
+.entry-title-head {
   display: inline;
 }
 
@@ -127,8 +127,16 @@ i {
   margin-bottom: 50px;
 }
 
-.title-span {
+.text-div {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-wrap: wrap;
+}
+
+.title,
+.fas {
+  width: 50%;
+}
+
+.fas {
+  text-align: right;
 }
