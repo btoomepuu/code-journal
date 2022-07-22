@@ -44,6 +44,7 @@ var $entryForm = document.getElementById('entry-form');
 $entryForm.addEventListener('submit', submitEntry);
 var $entries = document.getElementById('entries');
 var $entryFormHead = document.getElementById('entry-form-head');
+var $editEntry = document.getElementById('entry-edit');
 // Entries
 
 function renderEntry(object) {
@@ -56,9 +57,17 @@ function renderEntry(object) {
   listItem.appendChild(image);
   var textDiv = document.createElement('div');
   textDiv.setAttribute('class', 'column-half');
+  var titleSpan = document.createElement('span');
+  titleSpan.setAttribute('class', 'column-full title-span');
+  textDiv.appendChild(titleSpan);
   var title = document.createElement('p');
+  title.setAttribute('class', 'column-half');
   title.textContent = `${object.title}`;
-  textDiv.appendChild(title);
+  titleSpan.appendChild(title);
+  var edit = document.createElement('i');
+  edit.setAttribute('class', 'fas fa-pen');
+  edit.setAttribute('data-view', 'entry-edit');
+  titleSpan.appendChild(edit);
   var note = document.createElement('p');
   note.textContent = `${object.note}`;
   textDiv.appendChild(note);
@@ -69,12 +78,22 @@ function renderEntry(object) {
 
 function switchView(view) {
   data.view = view;
-  if (data.view === 'entries') {
-    $entries.className = 'view';
-    $entryFormHead.className = 'view hidden';
-  } else if (data.view === 'entry-form') {
-    $entries.className = 'view hidden';
-    $entryFormHead.className = 'view';
+  switch (view) {
+    case 'entries':
+      $entries.className = 'view';
+      $entryFormHead.className = 'view hidden';
+      $editEntry.className = 'view hidden';
+      break;
+    case 'entry-form':
+      $entryFormHead.className = 'view';
+      $entries.className = 'view hidden';
+      $editEntry.className = 'view hidden';
+      break;
+    case 'entry-edit':
+      $editEntry.className = 'view';
+      $entries.className = 'view hidden';
+      $entryFormHead.className = 'view hidden';
+      break;
   }
 }
 
@@ -86,3 +105,9 @@ window.addEventListener('DOMContentLoaded', event => {
 window.addEventListener('DOMContentLoaded', event => {
   switchView(data.view);
 });
+
+function editEntry(event) {
+
+}
+
+list.addEventListener('click', editEntry);

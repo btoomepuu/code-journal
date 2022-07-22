@@ -80,6 +80,10 @@ button {
   border-style: none;
 }
 
+i {
+  color: rgb(82, 9, 123);
+}
+
 .entry-head {
   display: flex;
   justify-content: space-between;
@@ -121,4 +125,10 @@ button {
 
 .entry-items li {
   margin-bottom: 50px;
+}
+
+.title-span {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
