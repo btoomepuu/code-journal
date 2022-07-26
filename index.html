@@ -29,10 +29,10 @@
   <div class="container">
     <div class="view" data-view="entry-form" id="entry-form-head">
       <form id="entry-form">
+        <div class="column-full">
+          <h1>New Entry</h1>
+        </div>
         <div class="row">
-          <div class="column-full">
-            <h1>New Entry</h1>
-          </div>
           <img class="column-half entry-img" src="/images/placeholder-image-square.jpg" alt="Image Place Holder">
           <div class="column-full column-half">
             <label for="title">Title</label>
@@ -52,7 +52,8 @@
             <textarea required
             name="note"
             id="note"
-            rows="6" >
+            rows="6"
+            class="note-entry" >
             </textarea>
           </div>
         </div>
@@ -66,7 +67,7 @@
     <div class="view hidden" data-view="entries" id="entries">
       <div class="row">
         <div class="column-full entry-head">
-          <h1 class="entry-title">Entries</h1>
+          <h1 class="entry-title-head">Entries</h1>
           <div class="new-entry">
             <button class="new-entry-btn" data-view="entry-form">NEW</button>
           </div>
@@ -81,18 +82,15 @@
       </div>
     </div>
     <div class="view" data-view="entry-edit" id="entry-edit">
-      <div class="row">
+      <!-- <div class="row">
         <div class="column-full entry-head">
           <h1 class="entry-title">Edit Entry</h1>
-        </div>
-      </div>
-      <!-- <p class="no-entry">No enteries have been recorded.</p> -->
-      <div class="row">
-        <div class="column-full">
-          <ul class="list">
-          </ul>
-        </div>d
-      </div>
+        </div> -->
+    </div>
+    <!-- <p class="no-entry">No enteries have been recorded.</p> -->
+    <div class="row">
+      <ul class="list column-full">
+      </ul>
     </div>
   </div>
   <main>

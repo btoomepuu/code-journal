@@ -27,18 +27,21 @@ function submitEntry(event) {
   var $imgUrl = $entryForm.elements.imgUrl.value;
   var $title = $entryForm.elements.title.value;
   var $note = $entryForm.elements.note.value;
-  var newEntry = {
+  var entry = {
     imgUrl: $imgUrl,
     title: $title,
     note: $note
   };
-  newEntry.entryId = data.nextEntryId;
-  data.nextEntryId++;
-  data.entries.unshift(newEntry);
-  $entryImg.src = '/images/placeholder-image-square.jpg';
-  renderEntry(newEntry);
+  if (data.editing === null) {
+    entry.entryId = data.nextEntryId;
+    data.nextEntryId++;
+    data.entries.unshift(entry);
+  } else (entry.entryId = data.editing);
   switchView('entries');
+  renderEntry(entry);
+  $entryImg.src = '/images/placeholder-image-square.jpg';
   document.getElementById('entry-form').reset();
+  data.editing = null;
 }
 var $entryForm = document.getElementById('entry-form');
 $entryForm.addEventListener('submit', submitEntry);
@@ -68,7 +71,6 @@ function renderEntry(object) {
   textDiv.appendChild(edit);
   var note = document.createElement('p');
   note.textContent = `${object.note}`;
-  // note.setAttribute('class', 'column-full');
   textDiv.appendChild(note);
   listItem.appendChild(textDiv);
   list.prepend(listItem);
@@ -106,20 +108,17 @@ window.addEventListener('DOMContentLoaded', event => {
 });
 
 function editEntry(event) {
-  var entryId;
-  var updateLocation;
+  data.editing = event.target.closest('li').id;
+  var entryLocation = data.nextEntryId - data.editing - 1;
   var updateEntry;
   if (event.target.className === 'fas fa-pen') {
-    entryId = event.target.closest('li').id;
-    updateLocation = data.nextEntryId - entryId - 1;
-    updateEntry = data.entries[updateLocation];
+    updateEntry = data.entries[entryLocation];
+    $entryImg.src = updateEntry.imgUrl;
+    $entryImgUrl.value = updateEntry.imgUrl;
+    $entryTitle.value = updateEntry.title;
+    $entryNote.value = updateEntry.note;
   }
-  $entryImg.src = updateEntry.imgUrl;
-  $entryImgUrl.value = updateEntry.imgUrl;
-  $entryTitle.value = updateEntry.title;
-  $entryNote.value = updateEntry.note;
 }
-
 list.addEventListener('click', editEntry);
 
 var $entryTitle = document.getElementById('title');
