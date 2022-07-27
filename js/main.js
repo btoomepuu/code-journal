@@ -23,6 +23,9 @@ var $entryImg = document.querySelector('.entry-img');
 document.getElementById('imgUrl').addEventListener('input', photoUpdate);
 
 function submitEntry(event) {
+  var $updateEntry = document.querySelector(`[id='${data.editing}']`);
+  var entryToEdit = data.entries.find(id => id.entryId === data.editing);
+  var index = data.entries.indexOf(entryToEdit);
   event.preventDefault();
   var $imgUrl = $entryForm.elements.imgUrl.value;
   var $title = $entryForm.elements.title.value;
@@ -36,9 +39,14 @@ function submitEntry(event) {
     entry.entryId = data.nextEntryId;
     data.nextEntryId++;
     data.entries.unshift(entry);
-  } else (entry.entryId = data.editing);
+    renderEntry(entry);
+  } else {
+    entry.entryId = data.editing;
+    data.entries[index] = entry;
+    $updateEntry.replaceWith(renderEntry(entry));
+  }
   switchView('entries');
-  renderEntry(entry);
+  document.getElementById('new-edit-head').innerHTML = 'New Entry';
   $entryImg.src = '/images/placeholder-image-square.jpg';
   document.getElementById('entry-form').reset();
   data.editing = null;
@@ -57,7 +65,7 @@ function renderEntry(object) {
   list.appendChild(listItem);
   var image = document.createElement('img');
   image.setAttribute('src', `${object.imgUrl}`);
-  image.setAttribute('class', 'column-half');
+  image.setAttribute('class', 'column-half image');
   listItem.appendChild(image);
   var textDiv = document.createElement('div');
   textDiv.setAttribute('class', 'column-half text-div');
@@ -71,6 +79,7 @@ function renderEntry(object) {
   textDiv.appendChild(edit);
   var note = document.createElement('p');
   note.textContent = `${object.note}`;
+  note.setAttribute('class', 'note');
   textDiv.appendChild(note);
   listItem.appendChild(textDiv);
   list.prepend(listItem);
@@ -105,22 +114,28 @@ window.addEventListener('DOMContentLoaded', event => {
 
 window.addEventListener('DOMContentLoaded', event => {
   switchView(data.view);
+  if (data.editing !== null) {
+    fillEdit(data.editing);
+  }
 });
 
 function editEntry(event) {
-  data.editing = event.target.closest('li').id;
-  var entryLocation = data.nextEntryId - data.editing - 1;
-  var updateEntry;
+  data.editing = parseInt(event.target.closest('li').id);
+  document.getElementById('new-edit-head').innerHTML = 'Edit Entry';
   if (event.target.className === 'fas fa-pen') {
-    updateEntry = data.entries[entryLocation];
-    $entryImg.src = updateEntry.imgUrl;
-    $entryImgUrl.value = updateEntry.imgUrl;
-    $entryTitle.value = updateEntry.title;
-    $entryNote.value = updateEntry.note;
+    fillEdit(data.editing);
   }
 }
 list.addEventListener('click', editEntry);
 
 var $entryTitle = document.getElementById('title');
 var $entryNote = document.getElementById('note');
-var $entryImgUrl = document.getElementById('imgUrl');
+var $ImgUrl = document.getElementById('imgUrl');
+
+function fillEdit(dataEditing) {
+  var $updateEntry = document.querySelector(`[id='${data.editing}']`);
+  $entryImg.src = $updateEntry.querySelector('img').src;
+  $ImgUrl.value = $updateEntry.querySelector('img').src;
+  $entryTitle.value = $updateEntry.querySelector('.title').innerHTML;
+  $entryNote.value = $updateEntry.querySelector('.note').innerHTML;
+}

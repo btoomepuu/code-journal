@@ -30,6 +30,7 @@ ul {
 
 p {
   overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 img {
@@ -98,10 +99,6 @@ i {
   display: inline;
   text-align: right;
 }
-
-/* .new-entry-btn {
-  text-align: right;
-} */
 
 .save-button {
   margin-top: 15px;
