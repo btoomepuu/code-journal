@@ -30,6 +30,7 @@ ul {
 
 p {
   overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 img {
@@ -80,13 +81,17 @@ button {
   border-style: none;
 }
 
+i {
+  color: rgb(82, 9, 123);
+}
+
 .entry-head {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.entry-title {
+.entry-title-head {
   display: inline;
 }
 
@@ -94,10 +99,6 @@ button {
   display: inline;
   text-align: right;
 }
-
-/* .new-entry-btn {
-  text-align: right;
-} */
 
 .save-button {
   margin-top: 15px;
@@ -121,4 +122,18 @@ button {
 
 .entry-items li {
   margin-bottom: 50px;
+}
+
+.text-div {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.title,
+.fas {
+  width: 50%;
+}
+
+.fas {
+  text-align: right;
 }
