@@ -154,10 +154,10 @@ $deleteEntry.addEventListener('click', () => {
 
 $confirm.addEventListener('click', () => {
   var $itemDelete = document.querySelector(`[id='${data.editing}']`);
-  list.removeChild($itemDelete);
   var entryToDelete = data.entries.find(id => id.entryId === data.editing);
   var index = data.entries.indexOf(entryToDelete);
-  data.entries.splice(index, index);
+  data.entries.splice(index, 1);
+  list.removeChild($itemDelete);
   $modal.style.visibility = 'hidden';
   data.editing = null;
   switchView('entries');
