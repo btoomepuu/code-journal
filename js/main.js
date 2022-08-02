@@ -46,10 +46,11 @@ function submitEntry(event) {
     $updateEntry.replaceWith(renderEntry(entry));
   }
   switchView('entries');
-  document.getElementById('new-edit-head').innerHTML = 'New Entry';
+  document.getElementById('new-edit-head').textContent = 'New Entry';
   $entryImg.src = '/images/placeholder-image-square.jpg';
   document.getElementById('entry-form').reset();
   data.editing = null;
+  $deleteEntry.style.visibility = 'hidden';
 }
 var $entryForm = document.getElementById('entry-form');
 $entryForm.addEventListener('submit', submitEntry);
@@ -91,10 +92,13 @@ function switchView(view) {
   switch (view) {
     case 'entries':
       $entries.className = 'view';
+      $deleteEntry.style.visibility = 'hidden';
+      $entryImg.src = '/images/placeholder-image-square.jpg';
       $entryFormHead.className = 'view hidden';
       $editEntry.className = 'view hidden';
       break;
     case 'entry-form':
+      document.getElementById('entry-form').reset();
       $entryFormHead.className = 'view';
       $entries.className = 'view hidden';
       $editEntry.className = 'view hidden';
@@ -121,7 +125,7 @@ window.addEventListener('DOMContentLoaded', event => {
 
 function editEntry(event) {
   data.editing = parseInt(event.target.closest('li').id);
-  document.getElementById('new-edit-head').innerHTML = 'Edit Entry';
+  document.getElementById('new-edit-head').textContent = 'Edit Entry';
   if (event.target.className === 'fas fa-pen') {
     fillEdit(data.editing);
   }
@@ -131,11 +135,34 @@ list.addEventListener('click', editEntry);
 var $entryTitle = document.getElementById('title');
 var $entryNote = document.getElementById('note');
 var $ImgUrl = document.getElementById('imgUrl');
+var $deleteEntry = document.querySelector('.delete-entry');
+var $confirm = document.querySelector('.btn-confirm');
+var $cancel = document.querySelector('.btn-cancel');
+var $modal = document.querySelector('.modal-container');
 
 function fillEdit(dataEditing) {
   var $updateEntry = document.querySelector(`[id='${data.editing}']`);
   $entryImg.src = $updateEntry.querySelector('img').src;
   $ImgUrl.value = $updateEntry.querySelector('img').src;
-  $entryTitle.value = $updateEntry.querySelector('.title').innerHTML;
-  $entryNote.value = $updateEntry.querySelector('.note').innerHTML;
+  $entryTitle.value = $updateEntry.querySelector('.title').textContent;
+  $entryNote.value = $updateEntry.querySelector('.note').textContent;
+  $deleteEntry.style.visibility = 'visible';
 }
+$deleteEntry.addEventListener('click', () => {
+  $modal.style.visibility = 'visible';
+});
+
+$confirm.addEventListener('click', () => {
+  var $itemDelete = document.querySelector(`[id='${data.editing}']`);
+  var entryToDelete = data.entries.find(id => id.entryId === data.editing);
+  var index = data.entries.indexOf(entryToDelete);
+  data.entries.splice(index, 1);
+  list.removeChild($itemDelete);
+  $modal.style.visibility = 'hidden';
+  data.editing = null;
+  switchView('entries');
+});
+
+$cancel.addEventListener('click', () => {
+  $modal.style.visibility = 'hidden';
+});
